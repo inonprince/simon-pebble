@@ -3,9 +3,9 @@
 bool wsConnected;
 
 #define NUM_MENU_SECTIONS 2
-#define NUM_MENU_ROWS 4
+#define NUM_MENU_ROWS 5
 
-#define NUM_MUSIC_MENU_ITEMS 2
+#define NUM_MUSIC_MENU_ITEMS 3
 #define NUM_PRESENTATION_MENU_ITEMS 2
 
 static Window *window;
@@ -68,6 +68,9 @@ static void menu_draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuI
           break;
         // Spotify
         case 1:
+          menu_cell_basic_draw(ctx, cell_layer, "AirPlay", NULL, NULL);
+          break;
+        case 2:
           menu_cell_basic_draw(ctx, cell_layer, "Spotify", NULL, NULL);
           break;
       }
@@ -100,10 +103,15 @@ void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *da
         case 0:
           itunes_control(NULL);
           break;
-        // Spotify
+        // Airplay
         case 1:
+          airplay_control(NULL);
+          break;
+        // Spotify
+        case 2:
           spotify_control(NULL);
           break;
+
       }
       break;
     case 1:

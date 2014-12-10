@@ -17,6 +17,7 @@ enum {
     KEY_SYSVOLUME   = 10,
     KEY_APP         = 11,
     KEY_COMMAND     = 12,
+    KEY_AIRPLAYDEVICES = 13,
 };
 
 extern bool wsConnected;
@@ -46,3 +47,7 @@ void spotify_update_ui(DictionaryIterator *iter);
 /* Keynote */
 void keynote_control();
 void keynote_update_ui(DictionaryIterator *iter);
+
+/* AirPlay */
+void airplay_control();
+void airplay_update_ui(DictionaryIterator *iter);

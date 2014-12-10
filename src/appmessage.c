@@ -38,6 +38,8 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
 
     if (!strcmp("iTunes", app->value->cstring)) {
       itunes_update_ui(iter);
+    } else if (!strcmp("AirPlay", app->value->cstring)) {
+      airplay_update_ui(iter);
     } else if (!strcmp("Spotify", app->value->cstring)) {
       spotify_update_ui(iter);
     } else if (!strcmp("Keynote", app->value->cstring)) {
