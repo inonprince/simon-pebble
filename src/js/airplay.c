@@ -2,7 +2,9 @@
 
 
 char *airplay_devices[30];  
+char *active_airplay_devices[30];  
 int number_of_devices;
+int number_of_active_devices;
 
 char* p_start = NULL; /* the pointer to the start of the current fragment */
 char* p_end = NULL; /* the pointer to the end of the current fragment */
@@ -25,7 +27,7 @@ static void window_load(Window *window);
 static void window_unload(Window *window);
 static void window_appear(Window *window);
 static void window_disappear(Window *window);
-
+static bool is_device_active(char* device_name);
 
 static Window *window;
 static MenuLayer * menu_layer;
@@ -150,7 +152,7 @@ static void menu_draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuI
 
     // Available AirPlay Devices
     case 0:
-      menu_cell_basic_draw(ctx, cell_layer, airplay_devices[cell_index->row], NULL, NULL);
+      menu_cell_basic_draw(ctx, cell_layer, airplay_devices[cell_index->row], NULL, is_device_active(airplay_devices[cell_index->row]) ? action_icon_pause : action_icon_play);
       break;
   }
   
@@ -168,8 +170,7 @@ void airplay_menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, 
       strcat (request, deviceName);
       APP_LOG( APP_LOG_LEVEL_DEBUG, "sending: %s", request);
       send_request(request);
-      // airplay_deinit();
-      // window_stack_pop(true);
+//      has_stale_information = true;
       break;
   }
 }
@@ -204,6 +205,10 @@ static void render_devices_menu() {
 void airplay_init(void) {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Window - airplay init %p", window);
 
+  action_icon_play = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ACTION_PLAY);
+  action_icon_pause = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ACTION_PAUSE);
+
+  
   window = window_create();
   window_set_window_handlers(window, (WindowHandlers) {
     .load = window_load,
@@ -227,57 +232,18 @@ void airplay_update_ui(DictionaryIterator *iter) {
     return;
   }
   */
+  int i, len;
+  char *tok, *text;
+
 
   Tuple* tuple = dict_read_first(iter);
 
   while(tuple) {
     switch(tuple->key) {
-      /*
-      case KEY_CONNECTED:
-
-        break;
-      case KEY_CONNECTEDTO:
-
-        break;
-      case KEY_HEADERTEXT:
-        text_layer_set_text(header_text, tuple->value->cstring);
-        break;
-      case KEY_MAINTEXT:
-        text_layer_set_text(main_text, tuple->value->cstring);
-        break;
-      case KEY_FOOTERTEXT:
-        text_layer_set_text(footer_text, tuple->value->cstring);
-        break;
-      case KEY_POSITION:
-        position = (uint16_t)tuple->value->uint32;
-        break;
-      case KEY_DURATION:
-        duration = (uint16_t)tuple->value->uint32;
-        break;
-      case KEY_SHUFFLE:
-        is_shuffling = (tuple->value->uint32) ? true : false;
-        update_progress_bar_shuffle();
-        break;
-      case KEY_PLAYING:
-        is_playing = (tuple->value->uint32) ? true : false;
-        update_playing_status();
-        break;
-      case KEY_APPVOLUME:
-        app_volume = (uint8_t)tuple->value->uint32;
-        break;
-      case KEY_SYSVOLUME:
-        sys_volume = (uint8_t)tuple->value->uint32;
-        break;
-      case KEY_APP:
-        //we know it's Spotify
-        break;
-      */
-      case KEY_AIRPLAYDEVICES:
+      case KEY_APDEVICES:
         // vibes_short_pulse();
-        APP_LOG( APP_LOG_LEVEL_DEBUG, "WOOHOOZ %s",tuple->value->cstring);
-        int i, len;
-        char *tok, *text;
-        memset(airplay_devices, 0, sizeof airplay_devices);
+        APP_LOG( APP_LOG_LEVEL_DEBUG, "AP Devices: %s",tuple->value->cstring);
+        memset(airplay_devices, 0, sizeof airplay_devices); // reset array
         len = strlen( tuple->value->cstring ) + 1;
         text = malloc( len );
         strcpy( text, tuple->value->cstring );
@@ -287,17 +253,41 @@ void airplay_update_ui(DictionaryIterator *iter) {
             strcpy( airplay_devices[i], tok );
         }
         number_of_devices = i;
-        if (number_of_devices) {
-          render_devices_menu();
+        break;
+      case KEY_ACTIVEAPDEVICES:
+        // vibes_short_pulse();
+        APP_LOG( APP_LOG_LEVEL_DEBUG, "Active AP Devices: %s",tuple->value->cstring);
+        memset(active_airplay_devices, 0, sizeof active_airplay_devices); // reset array
+        len = strlen( tuple->value->cstring ) + 1;
+        text = malloc( len );
+        strcpy( text, tuple->value->cstring );
+        for ( ( i = 0, tok = strtok1( text, '|' ) ); tok != NULL && i<50; ( i++, tok = strtok1( NULL, '|' ) ) ) {
+            len = strlen( tok );
+            active_airplay_devices[i] = malloc( len+1 );
+            strcpy( active_airplay_devices[i], tok );
         }
+        number_of_active_devices = i;
         break;
     }
     tuple = dict_read_next(iter);
+  }
+  if (number_of_devices) {
+    render_devices_menu();
   }
   has_stale_information = false;
   
   //update bar here since we have both position and duration
   // progress_bar_layer_set_value(seek_bar, seek_tuple->value->int16);
+}
+
+static bool is_device_active(char* device_name) {
+  int i;
+  for(i=0;i<number_of_active_devices;i++) {
+    if (strcmp(device_name,active_airplay_devices[i])) {
+      return true;
+    }
+  }
+  return false;
 }
 
 static void update_progress_bar_shuffle() {
@@ -313,7 +303,11 @@ static void update_progress_bar() {
 }
 
 static void handle_second_tick(struct tm *tick_time, TimeUnits units_changed) {
-
+  /*
+  if (has_stale_information) {
+     send_request("info");
+  }
+  */
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -395,11 +389,11 @@ static void click_config_provider(void *context) {
 }
 
 static void window_appear(Window *window) {
-  tick_timer_service_subscribe(SECOND_UNIT, handle_second_tick);
+//  tick_timer_service_subscribe(SECOND_UNIT, handle_second_tick);
 }
 
 static void window_disappear(Window *window) {
-  tick_timer_service_unsubscribe();
+//  tick_timer_service_unsubscribe();
 }
 
 static void window_load(Window *window) {
@@ -409,6 +403,11 @@ static void window_load(Window *window) {
 
 static void window_unload(Window *window) {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Window - Airplay window_unload %p", window);
+  
+  gbitmap_destroy(action_icon_play);
+  gbitmap_destroy(action_icon_pause);
+
+  
   has_loaded = false;
   menu_layer_destroy(menu_layer);
 }

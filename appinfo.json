@@ -1,8 +1,9 @@
 {
     "appKeys": {
-        "_airplayDevices": 13,
+        "_activeDevices": 13,
         "_app": 11,
         "_appVolume": 9,
+        "_availableDevices": 14,
         "_command": 12,
         "_connected": 0,
         "_connectedTo": 1,
@@ -24,88 +25,9 @@
     "resources": {
         "media": [
             {
-                "file": "images/action_icon_volume_down.png",
-                "name": "IMAGE_ACTION_VOLUME_DOWN",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_volume_up.png",
-                "name": "IMAGE_ACTION_VOLUME_UP",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_pause.png",
-                "name": "IMAGE_ACTION_PAUSE",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_play.png",
-                "name": "IMAGE_ACTION_PLAY",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_fast_forward.png",
-                "name": "IMAGE_ACTION_FAST_FORWARD",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_rewind.png",
-                "name": "IMAGE_ACTION_REWIND",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_right_arrow.png",
-                "name": "IMAGE_ACTION_RIGHT_ARROW",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_left_arrow.png",
-                "name": "IMAGE_ACTION_LEFT_ARROW",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_refresh.png",
-                "name": "IMAGE_ACTION_REFRESH",
-                "type": "png"
-            },
-            {
-                "file": "images/progress_bar_no_shuffle.png",
-                "name": "IMAGE_PROGRESS_BAR_NO_SHUFFLE",
-                "type": "png"
-            },
-            {
-                "file": "images/progress_bar_shuffle.png",
-                "name": "IMAGE_PROGRESS_BAR_SHUFFLE",
-                "type": "png"
-            },
-            {
-                "file": "images/progress_bar_volume_icon.png",
-                "name": "IMAGE_PROGRESS_BAR_VOLUME_ICON",
-                "type": "png"
-            },
-            {
-                "file": "images/progress_bar_clock.png",
-                "name": "IMAGE_PROGRESS_BAR_CLOCK",
-                "type": "png"
-            },
-            {
-                "file": "images/status_bar_icon_keynote.png",
-                "name": "STATUS_BAR_ICON_KEYNOTE",
-                "type": "png"
-            },
-            {
-                "file": "images/status_bar_icon_spotify.png",
-                "name": "STATUS_BAR_ICON_SPOTIFY",
-                "type": "png"
-            },
-            {
-                "file": "images/status_bar_icon_itunes.png",
-                "name": "STATUS_BAR_ICON_ITUNES",
-                "type": "png"
-            },
-            {
-                "file": "images/status_bar_icon_powerpoint.png",
-                "name": "STATUS_BAR_ICON_POWERPOINT",
+                "file": "images/icon.png",
+                "menuIcon": true,
+                "name": "ICON",
                 "type": "png"
             },
             {
@@ -114,9 +36,88 @@
                 "type": "png"
             },
             {
-                "file": "images/icon.png",
-                "menuIcon": true,
-                "name": "ICON",
+                "file": "images/status_bar_icon_powerpoint.png",
+                "name": "STATUS_BAR_ICON_POWERPOINT",
+                "type": "png"
+            },
+            {
+                "file": "images/status_bar_icon_itunes.png",
+                "name": "STATUS_BAR_ICON_ITUNES",
+                "type": "png"
+            },
+            {
+                "file": "images/status_bar_icon_spotify.png",
+                "name": "STATUS_BAR_ICON_SPOTIFY",
+                "type": "png"
+            },
+            {
+                "file": "images/status_bar_icon_keynote.png",
+                "name": "STATUS_BAR_ICON_KEYNOTE",
+                "type": "png"
+            },
+            {
+                "file": "images/progress_bar_clock.png",
+                "name": "IMAGE_PROGRESS_BAR_CLOCK",
+                "type": "png"
+            },
+            {
+                "file": "images/progress_bar_volume_icon.png",
+                "name": "IMAGE_PROGRESS_BAR_VOLUME_ICON",
+                "type": "png"
+            },
+            {
+                "file": "images/progress_bar_shuffle.png",
+                "name": "IMAGE_PROGRESS_BAR_SHUFFLE",
+                "type": "png"
+            },
+            {
+                "file": "images/progress_bar_no_shuffle.png",
+                "name": "IMAGE_PROGRESS_BAR_NO_SHUFFLE",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_refresh.png",
+                "name": "IMAGE_ACTION_REFRESH",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_left_arrow.png",
+                "name": "IMAGE_ACTION_LEFT_ARROW",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_right_arrow.png",
+                "name": "IMAGE_ACTION_RIGHT_ARROW",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_rewind.png",
+                "name": "IMAGE_ACTION_REWIND",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_fast_forward.png",
+                "name": "IMAGE_ACTION_FAST_FORWARD",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_play.png",
+                "name": "IMAGE_ACTION_PLAY",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_pause.png",
+                "name": "IMAGE_ACTION_PAUSE",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_volume_up.png",
+                "name": "IMAGE_ACTION_VOLUME_UP",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_volume_down.png",
+                "name": "IMAGE_ACTION_VOLUME_DOWN",
                 "type": "png"
             }
         ]
